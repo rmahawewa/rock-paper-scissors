@@ -4,7 +4,7 @@ function getComputerChoice() {
     const random = Math.round(rand * difference);
     const number_in_range = random + 1;
 
-    const valu = number_in_range === 1 ? "rock" : (number_in_range === 2 ? "scissor" : "paper");
+    const valu = number_in_range === 1 ? "Rock" : (number_in_range === 2 ? "Scissor" : "Paper");
     //console.log(valu);
     return valu;
 }
