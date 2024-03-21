@@ -1,8 +1,14 @@
 const body = document.querySelector("body");
-body.setAttribute("style", "display:flex; flex-direction:column; align-items: center; justify-content: center; font-family: Arial");
+body.setAttribute("style", "display:flex; flex-direction:column; align-items: center; justify-content: center; font-family: Arial, Helvetica, sans-serif");
+const selection = document.querySelector(".selection");
+selection.setAttribute("style", "padding:40px; background: #0066ff; border: 8px solid orange; border-radius: 10px; width: 400px; display: flex; justify-content:center; gap: 30px;");
+const btn = document.querySelectorAll(".btn");
+btn.forEach(elem => elem.setAttribute("style", "padding:5px; border-radius: 5px; width: 80px; border: 4px solid white; background: orange; color: #ffffff; font-weight: bold;"));
 const result = document.querySelector("#results");
+result.setAttribute("style", "width: 400px; background: #0066ff; border:8px solid orange; border-radius: 10px; padding-left:40px; padding-right:40px; margin-top: 20px; list-style-type: none;");
 var player_marks = 0;
 var computer_marks = 0;
+var round = 0;
 
 // valu.addEventListener("click", (e) => {
 //     console.log(e.target.textContent);
@@ -21,10 +27,9 @@ function handler(e) {
 }
 
 function playTheRound(playerSelectin) {
+    round++;
     console.log("player: " + playerSelectin);
     const com_choice = getComputerChoice();
-    const lbl = document.createElement("label");
-    lbl.textContent = "Your choice: " + playerSelectin + "   -   Computers choice: " + com_choice;
     const winner = playRound(playerSelectin, com_choice);
     let msg = "";
     if (winner.localeCompare("You") === 0) {
@@ -36,24 +41,40 @@ function playTheRound(playerSelectin) {
     } else {
         msg = "Round tied";
     }
-    const lb = document.createElement("br");
-    const lb1 = document.createElement("br");
-    const lbl2 = document.createElement("label");
-    lbl2.textContent = msg;
+    const li0 = document.createElement("li");
+    li0.textContent = "Round: " + round;
+    li0.setAttribute("style", "font-weight: bold; color: #ffcccc;");
+    const li1 = document.createElement("li");
+    li1.textContent = "Your choice: " + playerSelectin;
+    const li2 = document.createElement("li");
+    li2.textContent = "Computers choice: " + com_choice;
+    const li3 = document.createElement("li");
+    li3.textContent = msg;
+    li3.setAttribute("style", "color: #ffcccc;");
 
-    result.appendChild(lbl);
-    result.appendChild(lb);
-    result.appendChild(lbl2);
-    result.appendChild(lb1);
+    const container_li = document.createElement("li");
+    container_li.setAttribute("class", "cont_li");
+    // container_li.setAttribute("style","width");
+    const ul = document.createElement("ul");
+    ul.setAttribute("class", "list");
+    ul.setAttribute("style", "background: #0066ff; color: Lime; border-radius: 5px; padding-top:20px; padding-bottom:20px; display:flex; flex-direction: column; gap: 5px;")
 
-    var lbl3 = document.createElement("label");
+    ul.appendChild(li0);
+    ul.appendChild(li1);
+    ul.appendChild(li2);
+    ul.appendChild(li3);
+
+    var li4 = document.createElement("li");
     var series_winner = "";
 
     if (player_marks === 5 || computer_marks === 5) {
         series_winner = (player_marks > computer_marks ? "You win the series!" : "Computer wins the series!");
-        lbl3.textContent = series_winner;
-        result.appendChild(lbl3);
+        li4.textContent = series_winner;
+        li4.setAttribute("style", "font-weight: bold; color: #ffcccc;");
+        ul.appendChild(li4);
     }
+    container_li.appendChild(ul);
+    result.insertBefore(container_li, result.children[0]);
 
 }
 
@@ -108,6 +129,7 @@ function removePreviousSeries() {
     if (player_marks === 5 || computer_marks === 5) {
         player_marks = 0;
         computer_marks = 0;
+        round = 0;
         result.innerHTML = "";
         console.log("removePreviousSeries 2");
     }
